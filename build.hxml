@@ -1,0 +1,11 @@
+-lib three.hx
+-cp src
+-dce full
+-debug
+#-D three_include_js
+
+
+
+-main Main
+-js docs/main.js
+-cmd echo "build -Main- is done"
