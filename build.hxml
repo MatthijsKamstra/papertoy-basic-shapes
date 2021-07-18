@@ -2,10 +2,10 @@
 -cp src
 -dce full
 -debug
+-D js-es=6
 #-D three_include_js
 
-
-
--main Main
+-main MainTwo
+# -main Main
 -js docs/main.js
 -cmd echo "build -Main- is done"
