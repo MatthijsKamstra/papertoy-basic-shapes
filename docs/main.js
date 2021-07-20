@@ -5,6 +5,7 @@ class MainTwo {
 		this.settingCanvas();
 	}
 	settingCanvas() {
+		let arr = [];
 		let ids = [];
 		let all = window.document.getElementsByClassName("paper-toy-shape");
 		let _g = 0;
@@ -12,19 +13,29 @@ class MainTwo {
 		while(_g < _g1) {
 			let i = _g++;
 			let el = all[i];
-			console.log("src/MainTwo.hx:38:",el);
+			console.log("src/MainTwo.hx:39:",el);
 			if(el == null) {
 				return;
 			}
+			console.log("src/MainTwo.hx:46:",el.id);
+			if(el.id == null) {
+				return;
+			}
+			console.log("src/MainTwo.hx:50:",el.dataset.paperToyShape);
+			if(el.dataset.paperToyShape == null) {
+				return;
+			}
+			arr.push({ id : el.id, type : el.dataset.paperToyShape});
 			let c = window.document.createElement("canvas");
 			c.width = 600;
 			c.height = 600;
-			c.id = "wrapper-" + i;
+			c.id = el.id;
 			c.className = "paper-toy-shape img-fluid rounded";
 			el.replaceWith(c);
 			ids.push(c.id);
 		}
-		console.log("src/MainTwo.hx:55:",ids);
+		console.log("src/MainTwo.hx:69:",ids);
+		console.log("src/MainTwo.hx:70:",arr);
 		this.setup2("test");
 		this.setup2(ids[0]);
 		this.setup2(ids[1]);
@@ -60,7 +71,7 @@ class MainTwo {
 			let geometry2 = new THREE.CylinderGeometry(1,1,2,60);
 			break;
 		default:
-			console.log("src/MainTwo.hx:111:","case '" + type + "': trace ('" + type + "');");
+			console.log("src/MainTwo.hx:126:","case '" + type + "': trace ('" + type + "');");
 		}
 		let material = new THREE.MeshLambertMaterial({ color : 16739179});
 		let mesh = new THREE.Mesh(geometry,material);

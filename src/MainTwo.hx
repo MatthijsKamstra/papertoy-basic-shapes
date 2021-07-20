@@ -31,6 +31,7 @@ class MainTwo {
 	}
 
 	function settingCanvas() {
+		var arr:Array<ShapeObj> = [];
 		var ids = [];
 		var all = document.getElementsByClassName('paper-toy-shape');
 		for (i in 0...all.length) {
@@ -42,17 +43,31 @@ class MainTwo {
 			// trace(el.dataset.paperToyShape);
 			// ids.push(el.id);
 
+			trace(el.id);
+			if (el.id == null)
+				return;
+
+			trace(el.dataset.paperToyShape);
+			if (el.dataset.paperToyShape == null)
+				return;
+
+			arr.push({
+				id: el.id,
+				type: el.dataset.paperToyShape
+			});
+
 			var c = document.createCanvasElement();
 			c.width = 600;
 			c.height = 600;
 			// c.setAttribute('width', '600px');
 			// c.setAttribute('height', '600px');
-			c.id = 'wrapper-$i';
+			c.id = el.id;
 			c.className = 'paper-toy-shape img-fluid rounded';
 			el.replaceWith(c);
 			ids.push(c.id);
 		}
 		trace(ids);
+		trace(arr);
 
 		setup2('test');
 		setup2(ids[0]);
@@ -156,4 +171,9 @@ class MainTwo {
 	static public function main() {
 		var app = new MainTwo();
 	}
+}
+
+typedef ShapeObj = {
+	var id:String;
+	var type:String;
 }
