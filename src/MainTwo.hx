@@ -1,5 +1,6 @@
 package;
 
+import three.core.Geometry;
 import three.geometries.CylinderGeometry;
 import js.Lib;
 import three.materials.MeshBasicMaterial;
@@ -36,10 +37,16 @@ class MainTwo {
 		var all = document.getElementsByClassName('paper-toy-shape');
 		for (i in 0...all.length) {
 			var el = all[i];
+
 			trace(el);
 			if (el == null)
 				return;
-			// trace(el.nodeName);
+
+			trace(el.nodeName);
+			trace(el.nodeName.toLowerCase());
+			if (el.nodeName.toLowerCase() != 'canvas') {
+				return;
+			}
 			// trace(el.dataset.paperToyShape);
 			// ids.push(el.id);
 
@@ -63,15 +70,19 @@ class MainTwo {
 			// c.setAttribute('height', '600px');
 			c.id = el.id;
 			c.className = 'paper-toy-shape img-fluid rounded';
+			c.dataset.paperToyShape = el.dataset.paperToyShape;
+
 			el.replaceWith(c);
+
 			ids.push(c.id);
 		}
 		trace(ids);
 		trace(arr);
 
-		setup2('test');
+		// setup2('test');
 		setup2(ids[0]);
 		setup2(ids[1]);
+		setup2(ids[2]);
 	}
 
 	function setup2(id:String) {
@@ -109,20 +120,21 @@ class MainTwo {
 		light.position.set(-1, 2, 4);
 		scene.add(light);
 
-		var type = 'cuboid';
+		var type = canvas.dataset.paperToyShape;
 
 		// box
 		var boxWidth = 2;
 		var boxHeight = 2;
 		var boxDepth = 1;
 
-		var geometry = new BoxGeometry(boxWidth, boxHeight, boxDepth);
+		var geometry:Geometry;
 		switch (type) {
 			case 'cylinder':
-				var geometry = new CylinderGeometry(1, 1, 2, 60);
+				geometry = new CylinderGeometry(1, 1, 2, 60);
 			case 'cuboid':
-				var geometry = new BoxGeometry(boxWidth, boxHeight, boxDepth);
+				geometry = new BoxGeometry(boxWidth, boxHeight, boxDepth);
 			default:
+				geometry = new BoxGeometry(boxWidth, boxHeight, boxDepth);
 				trace("case '" + type + "': trace ('" + type + "');");
 		}
 

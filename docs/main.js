@@ -13,15 +13,20 @@ class MainTwo {
 		while(_g < _g1) {
 			let i = _g++;
 			let el = all[i];
-			console.log("src/MainTwo.hx:39:",el);
+			console.log("src/MainTwo.hx:41:",el);
 			if(el == null) {
 				return;
 			}
-			console.log("src/MainTwo.hx:46:",el.id);
+			console.log("src/MainTwo.hx:45:",el.nodeName);
+			console.log("src/MainTwo.hx:46:",el.nodeName.toLowerCase());
+			if(el.nodeName.toLowerCase() != "canvas") {
+				return;
+			}
+			console.log("src/MainTwo.hx:53:",el.id);
 			if(el.id == null) {
 				return;
 			}
-			console.log("src/MainTwo.hx:50:",el.dataset.paperToyShape);
+			console.log("src/MainTwo.hx:57:",el.dataset.paperToyShape);
 			if(el.dataset.paperToyShape == null) {
 				return;
 			}
@@ -31,14 +36,15 @@ class MainTwo {
 			c.height = 600;
 			c.id = el.id;
 			c.className = "paper-toy-shape img-fluid rounded";
+			c.dataset.paperToyShape = el.dataset.paperToyShape;
 			el.replaceWith(c);
 			ids.push(c.id);
 		}
-		console.log("src/MainTwo.hx:69:",ids);
-		console.log("src/MainTwo.hx:70:",arr);
-		this.setup2("test");
+		console.log("src/MainTwo.hx:79:",ids);
+		console.log("src/MainTwo.hx:80:",arr);
 		this.setup2(ids[0]);
 		this.setup2(ids[1]);
+		this.setup2(ids[2]);
 	}
 	setup2(id) {
 		let canvas = window.document.getElementById(id);
@@ -58,20 +64,21 @@ class MainTwo {
 		let light = new THREE.DirectionalLight(color,intensity);
 		light.position.set(-1,2,4);
 		scene.add(light);
-		let type = "cuboid";
+		let type = canvas.dataset.paperToyShape;
 		let boxWidth = 2;
 		let boxHeight = 2;
 		let boxDepth = 1;
-		let geometry = new THREE.BoxGeometry(boxWidth,boxHeight,boxDepth);
+		let geometry;
 		switch(type) {
 		case "cuboid":
-			let geometry1 = new THREE.BoxGeometry(boxWidth,boxHeight,boxDepth);
+			geometry = new THREE.BoxGeometry(boxWidth,boxHeight,boxDepth);
 			break;
 		case "cylinder":
-			let geometry2 = new THREE.CylinderGeometry(1,1,2,60);
+			geometry = new THREE.CylinderGeometry(1,1,2,60);
 			break;
 		default:
-			console.log("src/MainTwo.hx:126:","case '" + type + "': trace ('" + type + "');");
+			geometry = new THREE.BoxGeometry(boxWidth,boxHeight,boxDepth);
+			console.log("src/MainTwo.hx:138:","case '" + type + "': trace ('" + type + "');");
 		}
 		let material = new THREE.MeshLambertMaterial({ color : 16739179});
 		let mesh = new THREE.Mesh(geometry,material);
